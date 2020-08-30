@@ -13,15 +13,20 @@ import 'amfe-flexible'
 import newHeader from './components/new-header.vue'
 // 注册全局  logo
 import newLogo from './components/new-logo.vue'
+import navItem from './components/nav-item.vue'
 // 导入axios
 import axios from 'axios'
 // 把axios挂载到vue原型上
+import moment from 'moment'
 Vue.prototype.$axios = axios
 // 给 axios配置默认baseURL基准地址
 axios.defaults.baseURL = 'http://localhost:3000'
 
+Vue.filter('time', input => {
+  return moment(input).format('YYYY-MM-DD')
+})
 Vue.component('new-header', newHeader)
-
+Vue.component('nav-item', navItem)
 Vue.component('new-logo', newLogo)
 
 Vue.use(Vant)

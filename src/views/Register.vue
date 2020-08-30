@@ -47,7 +47,13 @@ export default {
       const { statusCode, message } = res.data
       if (statusCode === 200) {
         this.$toast.success(message)
-        this.$router.push('/login')
+        this.$router.push({
+          name: 'login',
+          params: {
+            username: this.username,
+            password: this.password
+          }
+        })
       } else {
         this.$toast.fail(message)
       }

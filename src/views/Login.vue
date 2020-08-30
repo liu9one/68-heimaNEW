@@ -29,7 +29,11 @@
 <script>
 import axios from 'axios'
 export default {
-
+  created () {
+    this.username = this.$route.params.username
+    this.password = this.$route.params.password
+    // console.log(this.$route)
+  },
   methods: {
     async login() {
       const res = await axios.post('/login', {
@@ -37,8 +41,10 @@ export default {
         password: this.password
       })
       console.log(res)
-      const { statusCode, message } = res.data
+      const { statusCode, message, data } = res.data
       if (statusCode === 200) {
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('userId', data.user.id)
         this.$toast.success(message)
         this.$router.push('/user')
       } else {

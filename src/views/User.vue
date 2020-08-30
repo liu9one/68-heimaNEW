@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-      <div class="header">
+      <div class="header" @click="$router.push('/user-edit')">
           <div class="avatar">
           <img :src=" $axios.defaults.baseURL + user.head_img " alt="">
       </div>
@@ -8,7 +8,7 @@
           <span class="iconfont " :class="user.gender===1? 'iconxingbienan' : 'iconxingbienv'"></span>
           <span>{{user.nickname}}</span>
           <div class="time">
-              {{user.create_date | time }}
+              {{user.create_date |time}}
           </div>
       </div>
       <div class="arrow">
@@ -27,10 +27,13 @@
     <template>我的收藏</template>
     <template #content>文章/视频</template>
 </nav-item>
-      <nav-item>
+      <nav-item to= '/user-edit'>
     <template>设置</template>
-    <template #content>关注的人</template>
+    <template #content></template>
 </nav-item>
+<div class="logout">
+  <van-button type="warning" block @click='logout'>退出</van-button>
+</div>
   </div>
 
 </template>
@@ -42,6 +45,27 @@ export default {
       user: ''
     }
   },
+  methods: {
+    async  logout () {
+      try {
+        await this.$dialog.confirm({
+          title: '温馨提示',
+          message: '你确定要退出吗'
+        })
+        // on confirm
+      } catch {
+        // on cancel
+        // console.log('不退')
+        return this.$toast('取消退出')
+      }
+      console.log('退出')
+      localStorage.removeItem('token')
+      localStorage.removeItem('userId')
+      this.$router.push('/login')
+      this.$toast('已退出')
+    }
+
+  },
   async created () {
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
@@ -51,16 +75,11 @@ export default {
       }
     })
     console.log(res)
-    const { statusCode, data, message } = res.data
+    const { statusCode, data } = res.data
     if (statusCode === 200) {
       // this.$toast.success(message)
       this.user = data
       // console.log(data)
-    } else if (statusCode === 401) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('userId')
-      this.$toast(message)
-      this.$router.push('/login')
     }
   }
 }
@@ -97,6 +116,9 @@ export default {
         color: pink;
       }
     }
+  }
+  .logout{
+    padding: 10px;
   }
 }
 </style>

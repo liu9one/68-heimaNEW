@@ -32,7 +32,7 @@ export default {
   created () {
     this.username = this.$route.params.username
     this.password = this.$route.params.password
-    // console.log(this.$route)
+    console.log(this.$route)
   },
   methods: {
     async login() {

@@ -14,8 +14,10 @@
 
 <script>
 export default {
+  props: ['to'],
   methods: {
     selfJump () {
+      this.$emit('click')
       console.log(555)
       if (this.to) {
         this.$router.push(this.to)

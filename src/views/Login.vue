@@ -45,8 +45,12 @@ export default {
       if (statusCode === 200) {
         localStorage.setItem('token', data.token)
         localStorage.setItem('userId', data.user.id)
-        this.$toast.success(message)
-        this.$router.push('/user')
+        if (this.$router.query.back) {
+          this.$router.go(-1)
+        } else {
+          this.$toast.success(message)
+          this.$router.push('/user')
+        }
       } else {
         this.$toast.fail(message)
       }
@@ -71,7 +75,7 @@ export default {
 }
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
 .tips{
   padding: 16px;
   text-align: right;
